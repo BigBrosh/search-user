@@ -25,6 +25,7 @@ h2 {
 	margin-top: 5px;
 	margin-bottom: 6px;
 	padding: 5px 8px;
+	border: 1px solid lightgrey;
 }
 
 .add_form input.error, .displaying_matches input.error {

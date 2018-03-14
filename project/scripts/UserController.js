@@ -24,12 +24,14 @@ export class UserController {
 
 		else if(name.value === '')
 		{
+			age.classList.remove('error');
 			name.classList.add('error');
 			return false;
 		}
 		
 		else if(age.value === '')
 		{
+			name.classList.remove('error');
 			age.classList.add('error');
 			return false;
 		}
