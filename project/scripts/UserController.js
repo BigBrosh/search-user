@@ -1,6 +1,6 @@
 export class UserController {
 	constructor(parent, context) {
-		this.inputField = document.querySelector(`${parent} .search`);
-		this.inputField.addEventListener('input', (e) => {context.clearShownList(); context.showUsers(e.target.value)});
+		this.searchField = document.querySelector(`${parent} .search`);
+		this.searchField.addEventListener('input', (e) => {context.clearShownList(); context.showUsers(e.target.value)});
 	}
 }

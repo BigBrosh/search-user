@@ -24,13 +24,13 @@ class UserList {
 		let current = this.list;
 
 		while (current.next) {
-			if (current.name.indexOf(checker) != -1)
+			if (current.name.toLowerCase().indexOf(checker.toLowerCase()) != -1)
 				this.displayUsers(current, this.listWrap);
 
 			current = current.next;
 		}
 
-		if (current.name.indexOf(checker) != -1)
+		if (current.name.toLowerCase().indexOf(checker.toLowerCase()) != -1)
 			this.displayUsers(current, this.listWrap);
 	}
 
