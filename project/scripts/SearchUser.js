@@ -14,19 +14,25 @@ class UserList {
 		}
 
 		this.parent = document.querySelector(parent);
+		this.listWrap = document.querySelector(`${parent} .user_list`)
 		this.controller = new UserController(parent);
+
+		this.controller.inputField.addEventListener('input', (e) => {this.clearShownList(); this.showUsers(e.target.value)});
 		this.showUsers();
 	}
 
-	showUsers() {
+	showUsers(checker = '') {
 		let current = this.list;
 
 		while (current.next) {
-			this.displayUsers(current, this.parent);
+			if (current.name.indexOf(checker) != -1)
+				this.displayUsers(current, this.listWrap);
+
 			current = current.next;
 		}
 
-		this.displayUsers(current, this.parent);
+		if (current.name.indexOf(checker) != -1)
+			this.displayUsers(current, this.listWrap);
 	}
 
 	displayUsers(cur, parent) {
@@ -35,6 +41,10 @@ class UserList {
 			user.innerHTML = `User ${cur.name} is ${cur.age} years old`;
 
 		parent.appendChild(user);
+	}
+
+	clearShownList() {
+		this.listWrap.innerHTML = '';
 	}
 }
 
