@@ -21,6 +21,7 @@ class UserList {
 	}
 
 	showUsers(checker = '') {
+		this.clearShownList();
 		let current = this.list;
 
 		while (current.next) {
