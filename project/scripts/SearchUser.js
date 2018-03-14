@@ -3,12 +3,15 @@ import {UserController} from './UserController.js';
 
 class UserList {
 	constructor(parent) {
+		this.id = 0;
 		this.list = {
 			name: 'Maks',
 			age: 22,
+			id: this.id++,
 			next: {
 				name: 'Maksim',
 				age: 33,
+				id: this.id++,
 				next: null
 			}
 		}
@@ -38,6 +41,7 @@ class UserList {
 	displayUsers(cur, parent) {
 		let user = document.createElement('div');
 			user.setAttribute('class', 'user');
+			user.setAttribute('data-id', cur.id);
 			user.innerHTML = `User ${cur.name} is ${cur.age} years old`;
 
 		parent.appendChild(user);

@@ -45,6 +45,7 @@ export class UserController {
 				this.context.list = {
 					name: name.value,
 					age: age.value,
+					id: current.id,
 					next: null
 				}
 			}
@@ -60,8 +61,11 @@ export class UserController {
 				current.next = {
 					name: name.value,
 					age: age.value,
+					id: this.context.id,
 					next: null
 				}
+
+				this.context.id++;
 			}
 
 			this.context.showUsers();
