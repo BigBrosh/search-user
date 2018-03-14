@@ -1,13 +1,20 @@
 import '../../css/main.css';
+import {UserController} from './UserController.js';
 
 class UserList {
-	constructor() {
+	constructor(parent) {
 		this.list = {
 			name: 'Maks',
 			age: 22,
-			next: null
+			next: {
+				name: 'Maksim',
+				age: 33,
+				next: null
+			}
 		}
 
+		this.parent = document.querySelector(parent);
+		this.controller = new UserController(parent);
 		this.showUsers();
 	}
 
@@ -15,20 +22,20 @@ class UserList {
 		let current = this.list;
 
 		while (current.next) {
-			this.displayUsers(current);
+			this.displayUsers(current, this.parent);
 			current = current.next;
 		}
 
-		this.displayUsers(current);
+		this.displayUsers(current, this.parent);
 	}
 
-	displayUsers(cur) {
+	displayUsers(cur, parent) {
 		let user = document.createElement('div');
 			user.setAttribute('class', 'user');
 			user.innerHTML = `User ${cur.name} is ${cur.age} years old`;
 
-		document.getElementById('user_list').appendChild(user);
+		parent.appendChild(user);
 	}
 }
 
-let userList = new UserList();
+let userList = new UserList('.first_searcher');
