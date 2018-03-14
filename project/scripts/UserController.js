@@ -15,7 +15,14 @@ export class UserController {
 		let name = this.addingNameField;
 		let age = this.addingAgeField;
 
-		if(name.value === '')
+		if (name.value === '' && age.value === '')
+		{
+			name.classList.add('error');
+			age.classList.add('error');
+			return false;
+		}
+
+		else if(name.value === '')
 		{
 			name.classList.add('error');
 			return false;
