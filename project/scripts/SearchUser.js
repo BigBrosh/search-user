@@ -14,10 +14,9 @@ class UserList {
 		}
 
 		this.parent = document.querySelector(parent);
-		this.listWrap = document.querySelector(`${parent} .user_list`)
-		this.controller = new UserController(parent);
-
-		this.controller.inputField.addEventListener('input', (e) => {this.clearShownList(); this.showUsers(e.target.value)});
+		this.listWrap = document.querySelector(`${parent} .user_list`);
+		this.self = this;
+		this.controller = new UserController(parent, this.self);
 		this.showUsers();
 	}
 
