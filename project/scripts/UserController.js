@@ -30,16 +30,25 @@ export class UserController {
 			return false;
 		}
 
-		else if(name.value === '')
+		else if (name.value === '')
 		{
-			age.classList.remove('error');
 			name.classList.add('error');
+
+			if (age.value === '' || age.value.search(/^\d+$/) === -1)
+				age.classList.add('error');
+			else
+				age.classList.remove('error');
+
 			return false;
 		}
 		
-		else if(age.value === '')
+		else if (age.value === '' || age.value.search(/^\d+$/) === -1)
 		{
-			name.classList.remove('error');
+			if (name.value === '')
+				name.classList.add('error');	
+			else
+				name.classList.remove('error');
+
 			age.classList.add('error');
 			return false;
 		}
