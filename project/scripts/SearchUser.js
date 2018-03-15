@@ -45,7 +45,7 @@ class UserList {
 		let user = document.createElement('div');
 			user.setAttribute('class', 'user');
 			user.setAttribute('data-id', cur.id);
-			user.innerHTML = `<div class="remove"></div>User ${cur.name} is ${cur.age} years old`;
+			user.innerHTML = 	`<div class="remove"></div>User ${cur.name} is ${cur.age} years old <div class='deco'></div>`;
 
 		parent.appendChild(user);
 	}
