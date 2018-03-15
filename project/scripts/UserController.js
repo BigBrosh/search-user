@@ -6,16 +6,20 @@ export class UserController {
 		this.addingButton = document.querySelector(`${parent} .add`);
 		this.searchField = document.querySelector(`${parent} .search`);
 
-		this.addingNameField.classList.add('active');
-		this.addingButton.addEventListener('click', () => {this.addUser()});
+		this.addingButton.addEventListener('click', () => {
+			if (this.checkeFields())
+				this.addUser();
+		});
+
 		this.searchField.addEventListener('input', (e) => {context.showUsers(e.target.value)});
+
 		document.addEventListener('click', (e) => {
 			if (e.target.classList.contains('remove'))
 				this.removeUser(e);
 		});
 	}
 
-	addUser() {
+	checkeFields() {
 		let name = this.addingNameField;
 		let age = this.addingAgeField;
 
@@ -39,39 +43,44 @@ export class UserController {
 			age.classList.add('error');
 			return false;
 		}
-		
-		else {
-			name.classList.remove('error');
-			age.classList.remove('error');
 
-			if (this.context.list.name == null)
-			{
-				this.context.list.name = name.value;
-				this.context.list.age = age.value;
-				this.context.list.id = this.context.id;
-				this.context.list.next = null;
-			}
+		return true;
+	}
 
-			else
-			{
-				let current = this.context.list;
+	addUser() {
+		let name = this.addingNameField;
+		let age = this.addingAgeField;
 
-				while(current.next) {
-					current = current.next;
-				}
+		name.classList.remove('error');
+		age.classList.remove('error');
 
-				current.next = {
-					name: name.value,
-					age: age.value,
-					id: this.context.id,
-					next: null
-				}
-
-				this.context.id++;
-			}
-
-			this.context.showUsers();
+		if (this.context.list.name == null)
+		{
+			this.context.list.name = name.value;
+			this.context.list.age = age.value;
+			this.context.list.id = this.context.id;
+			this.context.list.next = null;
 		}
+
+		else
+		{
+			let current = this.context.list;
+
+			while(current.next) {
+				current = current.next;
+			}
+
+			current.next = {
+				name: name.value,
+				age: age.value,
+				id: this.context.id,
+				next: null
+			}
+
+			this.context.id++;
+		}
+
+		this.context.showUsers();
 	}
 
 	removeUser(e) {
