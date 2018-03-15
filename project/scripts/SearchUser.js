@@ -19,6 +19,9 @@ class UserList {
 		this.parent = document.querySelector(parent);
 		this.listWrap = document.querySelector(`${parent} .user_list`);
 		this.self = this;
+
+		this.getFromLocalStorage();
+
 		this.showUsers();
 		this.controller = new UserController(parent, this.self);
 	}
@@ -52,6 +55,15 @@ class UserList {
 
 	clearShownList() {
 		this.listWrap.innerHTML = '';
+	}
+
+	getFromLocalStorage() {
+		if (localStorage.getItem('userList'))
+			this.list = JSON.parse(localStorage.getItem('userList'));
+	}
+
+	setToLocalStorage() {
+		localStorage.setItem('userList', JSON.stringify(this.list));
 	}
 }
 

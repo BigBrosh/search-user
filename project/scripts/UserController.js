@@ -80,6 +80,7 @@ export class UserController {
 			this.context.id++;
 		}
 
+		this.context.setToLocalStorage();
 		this.context.showUsers();
 	}
 
@@ -91,6 +92,7 @@ export class UserController {
 			current.age = null;
 			current.id = null;
 			current.next = null;
+			this.context.setToLocalStorage();
 			this.context.clearShownList();
 			this.context.showUsers();
 			return true;				
@@ -103,6 +105,7 @@ export class UserController {
 				current.age = current.next.age;
 				current.id = current.next.id;
 				current.next = current.next.next;
+				this.context.setToLocalStorage();
 				this.context.clearShownList();
 				this.context.showUsers();
 				return true;
@@ -111,6 +114,7 @@ export class UserController {
 			else if (current.next.next == null && current.next.id == e.target.parentNode.getAttribute('data-id'))
 			{
 				current.next = null;
+				this.context.setToLocalStorage();
 				this.context.clearShownList();
 				this.context.showUsers();
 				return true;				
