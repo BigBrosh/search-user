@@ -19,13 +19,16 @@ class UserList {
 		this.parent = document.querySelector(parent);
 		this.listWrap = document.querySelector(`${parent} .user_list`);
 		this.self = this;
-		this.controller = new UserController(parent, this.self);
 		this.showUsers();
+		this.controller = new UserController(parent, this.self);
 	}
 
 	showUsers(checker = '') {
 		this.clearShownList();
 		let current = this.list;
+
+		if (current.name == null)
+			return false;
 
 		while (current.next) {
 			if (current.name.toLowerCase().indexOf(checker.toLowerCase()) != -1)
@@ -42,7 +45,7 @@ class UserList {
 		let user = document.createElement('div');
 			user.setAttribute('class', 'user');
 			user.setAttribute('data-id', cur.id);
-			user.innerHTML = `User ${cur.name} is ${cur.age} years old`;
+			user.innerHTML = `<div class="remove"></div>User ${cur.name} is ${cur.age} years old`;
 
 		parent.appendChild(user);
 	}

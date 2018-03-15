@@ -9,6 +9,10 @@ export class UserController {
 		this.addingNameField.classList.add('active');
 		this.addingButton.addEventListener('click', () => {this.addUser()});
 		this.searchField.addEventListener('input', (e) => {context.showUsers(e.target.value)});
+		document.addEventListener('click', (e) => {
+			if (e.target.classList.contains('remove'))
+				this.removeUser(e);
+		});
 	}
 
 	addUser() {
@@ -40,14 +44,12 @@ export class UserController {
 			name.classList.remove('error');
 			age.classList.remove('error');
 
-			if (!this.context.list)
+			if (this.context.list.name == null)
 			{
-				this.context.list = {
-					name: name.value,
-					age: age.value,
-					id: current.id,
-					next: null
-				}
+				this.context.list.name = name.value;
+				this.context.list.age = age.value;
+				this.context.list.id = this.context.id;
+				this.context.list.next = null;
 			}
 
 			else
@@ -69,6 +71,43 @@ export class UserController {
 			}
 
 			this.context.showUsers();
+		}
+	}
+
+	removeUser(e) {
+		let current = this.context.list;
+		if (current.next == null && current.id == e.target.parentNode.getAttribute('data-id'))
+		{
+			current.name = null;
+			current.age = null;
+			current.id = null;
+			current.next = null;
+			this.context.clearShownList();
+			this.context.showUsers();
+			return true;				
+		}
+
+		while(current.next) {
+			if (current.id == e.target.parentNode.getAttribute('data-id'))
+			{
+				current.name = current.next.name;
+				current.age = current.next.age;
+				current.id = current.next.id;
+				current.next = current.next.next;
+				this.context.clearShownList();
+				this.context.showUsers();
+				return true;
+			}
+
+			else if (current.next.next == null && current.next.id == e.target.parentNode.getAttribute('data-id'))
+			{
+				current.next = null;
+				this.context.clearShownList();
+				this.context.showUsers();
+				return true;				
+			}
+
+			current = current.next;
 		}
 	}
 }
