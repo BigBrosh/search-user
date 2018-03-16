@@ -2,31 +2,30 @@ import '../../css/main.css';
 import {UserController} from './UserController.js';
 
 class UserList {
-	constructor(parent) {
-		this.id = 0;
-		this.list = {
-			name: 'Maks',
-			age: 22,
+	id = 0;
+	list = {
+		name: 'Maks',
+		age: 22,
+		id: this.id++,
+		next: {
+			name: 'Maksim',
+			age: 33,
 			id: this.id++,
-			next: {
-				name: 'Maksim',
-				age: 33,
-				id: this.id++,
-				next: null
-			}
+			next: null
 		}
-
-		this.parent = document.querySelector(parent);
-		this.listWrap = document.querySelector(`${parent} .user_list`);
-		this.self = this;
-
-		this.getFromLocalStorage();
-
-		this.showUsers();
-		this.controller = new UserController(parent, this.self);
 	}
 
-	showUsers(checker = '') {
+	context = this;
+	parentName = '.first_searcher';
+	listWrap = document.querySelector(`.first_searcher .user_list`);
+
+	controller = new UserController;
+
+	setControllerContext = () => {
+		this.controller.setContext(this.context);
+	}
+
+	showUsers = (checker = '') => {
 		this.clearShownList();
 		let current = this.list;
 
@@ -44,27 +43,32 @@ class UserList {
 			this.displayUsers(current, this.listWrap);
 	}
 
-	displayUsers(cur, parent) {
+	displayUsers = (cur, parent) => {
 		let user = document.createElement('div');
 			user.setAttribute('class', 'user');
 			user.setAttribute('data-id', cur.id);
 			user.innerHTML = 	`<div class="remove"></div>User ${cur.name} is ${cur.age} years old <div class='deco'></div>`;
 
-		parent.appendChild(user);
+		this.listWrap.appendChild(user);
 	}
 
-	clearShownList() {
+	clearShownList = () => {
 		this.listWrap.innerHTML = '';
 	}
 
-	getFromLocalStorage() {
+	getFromLocalStorage = () => {
 		if (localStorage.getItem('userList'))
 			this.list = JSON.parse(localStorage.getItem('userList'));
 	}
 
-	setToLocalStorage() {
+	setToLocalStorage = () => {
 		localStorage.setItem('userList', JSON.stringify(this.list));
 	}
 }
 
-let userList = new UserList('.first_searcher');
+let userList = new UserList;
+
+userList.getFromLocalStorage();
+userList.showUsers();
+userList.controller.addListeners();
+userList.setControllerContext();

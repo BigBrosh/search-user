@@ -1,25 +1,25 @@
 export class UserController {
-	constructor(parent, context) {
-		this.context = context;
-		this.addingNameField = document.querySelector(`${parent} .name`);
-		this.addingAgeField = document.querySelector(`${parent} .age`);
-		this.addingButton = document.querySelector(`${parent} .add`);
-		this.searchField = document.querySelector(`${parent} .search`);
+	addingNameField = document.querySelector(`.first_searcher .name`);
+	addingAgeField = document.querySelector(`.first_searcher .age`);
+	addingButton = document.querySelector(`.first_searcher .add`);
+	searchField = document.querySelector(`.first_searcher .search`);
 
-		this.addingButton.addEventListener('click', () => {
-			if (this.checkeFields())
-				this.addUser();
-		});
-
-		this.searchField.addEventListener('input', (e) => {context.showUsers(e.target.value)});
-
-		document.addEventListener('click', (e) => {
-			if (e.target.classList.contains('remove'))
-				this.removeUser(e);
-		});
+	addListeners = () => {
+		this.addingButton.addEventListener('click', () => this.addingUser());		
+		this.searchField.addEventListener('input', e => this.context.showUsers(e.target.value));
+		document.addEventListener('click', (e) => this.removeUser(e));	
 	}
 
-	checkeFields() {
+	addingUser = () => {
+		if (this.checkFields())
+			this.addUser();
+	}
+
+	setContext = value => {
+		this.context = value;
+	}
+
+	checkFields = () => {
 		let name = this.addingNameField;
 		let age = this.addingAgeField;
 
@@ -56,7 +56,7 @@ export class UserController {
 		return true;
 	}
 
-	addUser() {
+	addUser = () => {
 		let name = this.addingNameField;
 		let age = this.addingAgeField;
 
@@ -93,35 +93,15 @@ export class UserController {
 		this.context.showUsers();
 	}
 
-	removeUser(e) {
-		let current = this.context.list;
-		if (current.next == null && current.id == e.target.parentNode.getAttribute('data-id'))
+	removeUser = (e) => {
+		if (e.target.classList.contains('remove'))
 		{
-			current.name = null;
-			current.age = null;
-			current.id = null;
-			current.next = null;
-			this.context.setToLocalStorage();
-			this.context.clearShownList();
-			this.context.showUsers();
-			return true;				
-		}
-
-		while(current.next) {
-			if (current.id == e.target.parentNode.getAttribute('data-id'))
+			let current = this.context.list;
+			if (current.next == null && current.id == e.target.parentNode.getAttribute('data-id'))
 			{
-				current.name = current.next.name;
-				current.age = current.next.age;
-				current.id = current.next.id;
-				current.next = current.next.next;
-				this.context.setToLocalStorage();
-				this.context.clearShownList();
-				this.context.showUsers();
-				return true;
-			}
-
-			else if (current.next.next == null && current.next.id == e.target.parentNode.getAttribute('data-id'))
-			{
+				current.name = null;
+				current.age = null;
+				current.id = null;
 				current.next = null;
 				this.context.setToLocalStorage();
 				this.context.clearShownList();
@@ -129,7 +109,30 @@ export class UserController {
 				return true;				
 			}
 
-			current = current.next;
+			while(current.next) {
+				if (current.id == e.target.parentNode.getAttribute('data-id'))
+				{
+					current.name = current.next.name;
+					current.age = current.next.age;
+					current.id = current.next.id;
+					current.next = current.next.next;
+					this.context.setToLocalStorage();
+					this.context.clearShownList();
+					this.context.showUsers();
+					return true;
+				}
+
+				else if (current.next.next == null && current.next.id == e.target.parentNode.getAttribute('data-id'))
+				{
+					current.next = null;
+					this.context.setToLocalStorage();
+					this.context.clearShownList();
+					this.context.showUsers();
+					return true;				
+				}
+
+				current = current.next;
+			}
 		}
 	}
 }
